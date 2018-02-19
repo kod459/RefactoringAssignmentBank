@@ -1,22 +1,33 @@
 package bankexercise;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+//import java.awt.BorderLayout;
+//import java.awt.FlowLayout;
+
+//import java.util.ArrayList;
+//import java.util.HashMap;
+//import java.util.Hashtable;
+//import java.util.Map;
+//import java.util.Random;
+//
+//import javax.swing.JButton;
+//import javax.swing.JComboBox;
+//import javax.swing.JFrame;
+//import javax.swing.JLabel;
+//import javax.swing.JOptionPane;
+//import javax.swing.JPanel;
+//import javax.swing.JTextField;
+
+
+//0:
+//Removed single imports and replaced with .* where necessary
+//Also removed unused import - Hashtable
+
+import java.awt.*;
+import java.util.*;
+import javax.swing.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Random;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -26,9 +37,11 @@ public class CreateBankDialog extends JFrame {
 	private final static int TABLE_SIZE = 29;
 	Random rand = new Random();
 	
-	ArrayList<BankAccount> accountList;
+	//1:
+	//Added Private to following 
+	private ArrayList<BankAccount> accountList;
 
-	HashMap<Integer, BankAccount> table = new HashMap<Integer, BankAccount>();
+	private HashMap<Integer, BankAccount> table = new HashMap<Integer, BankAccount>();
 	
 	
 	
@@ -47,14 +60,18 @@ public class CreateBankDialog extends JFrame {
 	
 	// Constructor code based on that for the Create and Edit dialog classes in the Shapes exercise.
 
-	JLabel accountIDLabel, accountNumberLabel, firstNameLabel, surnameLabel, accountTypeLabel, balanceLabel, overdraftLabel;
+
+	//2:
+	//Added private to the following swing properties && removed accountIDLabel as it is declared in other class
+	
+	private JLabel accountNumberLabel, firstNameLabel, surnameLabel, accountTypeLabel, balanceLabel, overdraftLabel;
 	
 	
-	JComboBox comboBox;
-	JTextField accountNumberTextField;
-	final JTextField firstNameTextField, surnameTextField, accountTypeTextField, balanceTextField, overdraftTextField;
+	private JComboBox<String> comboBox;
+	private JTextField accountNumberTextField;
+	private final JTextField firstNameTextField, surnameTextField, accountTypeTextField, balanceTextField, overdraftTextField;
 	
-	CreateBankDialog(HashMap accounts) {
+	CreateBankDialog(HashMap<Integer, BankAccount> accounts) {
 		
 		super("Add Bank Details");
 		
@@ -64,15 +81,12 @@ public class CreateBankDialog extends JFrame {
 		
 		JPanel dataPanel = new JPanel(new MigLayout());
 		
-		
-		
-		
-		
-		
-		
+
 		String[] comboTypes = {"Current", "Deposit"};
 		
-		final JComboBox comboBox = new JComboBox(comboTypes);
+		//3:
+		//ComboBox already declared
+		comboBox = new JComboBox<String>(comboTypes);
 		
 		
 		accountNumberLabel = new JLabel("Photograph file name: ");
@@ -135,71 +149,66 @@ public class CreateBankDialog extends JFrame {
 		
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
-				
+
 				String accountNumber = accountNumberTextField.getText();
-				
-				
-							
-				
+
 				String surname = surnameTextField.getText();
 				String firstName = firstNameTextField.getText();
 			
 				String accountType = comboBox.getSelectedItem().toString();
 				
-				String balanceStr = balanceTextField.getText();
-				String overdraftStr = overdraftTextField.getText();
-				
-				
-
-				double balance;
-				double overdraft;
-				
+				//4:
+				//Removed unnecessary/unused variables 
 		
 				if (accountNumber != null && accountNumber.length()==8 && surname != null && firstName != null && accountType != null) {
 					try {
-						
-						boolean idTaken = false;
-						boolean accNumTaken=false;
-							
-							int randNumber = rand.nextInt(24) + 1;
-						
-						 for (Map.Entry<Integer, BankAccount> entry : table.entrySet()) {
-							 
-							 while(randNumber == entry.getValue().getAccountID()){
-								 idTaken = true;
-								 randNumber = rand.nextInt(24)+1;
-							 }		 
-						 }
-					 
-							for (Map.Entry<Integer, BankAccount> entry : table.entrySet()) {					
-								 if(entry.getValue().getAccountNumber().trim().equals(accountNumberTextField.getText())){
-									 accNumTaken=true;	
-									 
-								 }
-							 }
-						
+
+						//5:
+						//Boolean is automatically set to false, get rid of initalization
+						boolean idTaken;
+						boolean accNumTaken = false;
+
+
+						int randNumber = rand.nextInt(24) + 1;
+
+						for (Map.Entry<Integer, BankAccount> entry : table.entrySet()) {
+
+							while(randNumber == entry.getValue().getAccountID()){
+								idTaken = true;
+								randNumber = rand.nextInt(24)+1;
+							}		 
+						}
+
+						for (Map.Entry<Integer, BankAccount> entry : table.entrySet()) {					
+							if(entry.getValue().getAccountNumber().trim().equals(accountNumberTextField.getText())){
+								accNumTaken=true;	
+
+							}
+						}
+
 						if(!accNumTaken){
-						
-						
+
+
 							BankAccount account = new BankAccount(randNumber, accountNumber, surname, firstName, accountType, 0.0, 0.0);
-						
-							
+
 							int key = Integer.parseInt(account.getAccountNumber());
-							
+
 							int hash = (key%TABLE_SIZE);
-							
+
 							while(table.containsKey(hash)){
 								hash = hash+1;
 							}
 							table.put(hash, account);
 						}
+						
 						else{
 							JOptionPane.showMessageDialog(null, "Account Number must be unique");
 						}
 					}
-					catch (Exception ex) {
+
+					//6:
+					//Added correct exception
+					catch (NumberFormatException ex) {
 						JOptionPane.showMessageDialog(null, "Number format exception");					
 					}
 				}
