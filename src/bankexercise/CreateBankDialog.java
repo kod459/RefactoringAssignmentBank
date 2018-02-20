@@ -43,9 +43,6 @@ public class CreateBankDialog extends JFrame {
 
 	private HashMap<Integer, BankAccount> table = new HashMap<Integer, BankAccount>();
 	
-	
-	
-	
 	public void put(int key, BankAccount value){
 		int hash = (key%TABLE_SIZE);
 
@@ -54,9 +51,6 @@ public class CreateBankDialog extends JFrame {
 		}
 		table.put(hash, value);
 	}
-	
-	
-	
 	
 	// Constructor code based on that for the Create and Edit dialog classes in the Shapes exercise.
 
@@ -188,7 +182,6 @@ public class CreateBankDialog extends JFrame {
 
 						if(!accNumTaken){
 
-
 							BankAccount account = new BankAccount(randNumber, accountNumber, surname, firstName, accountType, 0.0, 0.0);
 
 							int key = Integer.parseInt(account.getAccountNumber());
@@ -228,7 +221,4 @@ public class CreateBankDialog extends JFrame {
 		setVisible(true);
 
 	}
-	
-	
-	
 }
