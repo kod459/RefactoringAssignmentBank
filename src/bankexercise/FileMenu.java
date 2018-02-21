@@ -2,7 +2,7 @@ package bankexercise;
 
 import javax.swing.*;
 
-public class FileMenu implements FileMenuInterface {
+public class FileMenu {
 	JMenu fileMenu;
 	JMenuItem open, save, saveAs;
 		
@@ -11,7 +11,6 @@ public class FileMenu implements FileMenuInterface {
 		initComponents();
 	}
 	
-	@Override
 	public void initComponents() {
 		
 		fileMenu = new JMenu("File");

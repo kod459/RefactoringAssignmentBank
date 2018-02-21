@@ -2,7 +2,7 @@ package bankexercise;
 
 import javax.swing.*;
 
-public class TransactionMenu implements TransactionMenuInterface {
+public class TransactionMenu {
 	
 	private JMenu transactionsMenu;
 	private JMenuItem deposit, withdraw, calcInterest;

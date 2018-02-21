@@ -2,7 +2,7 @@ package bankexercise;
 
 import javax.swing.*;
 
-public class RecordMenu implements RecordMenuInterface {
+public class RecordMenu {
 	
 private JMenu recordsMenu;
 	

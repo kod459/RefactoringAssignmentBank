@@ -2,7 +2,7 @@ package bankexercise;
 
 import javax.swing.*;
 
-public class NavigateMenu implements NavigateMenuInterface {
+public class NavigateMenu {
 	private JMenu navigateMenu;
 	private JMenuItem nextItem, prevItem, firstItem, lastItem, findByAccount, findBySurname, listAll;
 	private JButton firstItemButton, lastItemButton, nextItemButton, prevItemButton;

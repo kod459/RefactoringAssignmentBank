@@ -39,10 +39,10 @@ public class BankApplication extends JFrame {
 	private final static int TABLE_SIZE = 29;
 	static private final String newline = "\n";
 	
-	NavigateMenuInterface navigateMenu = new NavigateMenu();
-	RecordMenuInterface recordsMenu = new RecordMenu();
-	TransactionMenuInterface transactionsMenu = new TransactionMenu();
-	FileMenuInterface fileMenu = new FileMenu();
+	NavigateMenu navigateMenu = new NavigateMenu();
+	RecordMenu recordsMenu = new RecordMenu();
+	TransactionMenu transactionsMenu = new TransactionMenu();
+	FileMenu fileMenu = new FileMenu();
 
 	
 	JMenuBar menuBar;
