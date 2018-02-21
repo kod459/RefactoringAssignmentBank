@@ -39,16 +39,19 @@ public class BankApplication extends JFrame {
 	private final static int TABLE_SIZE = 29;
 	static private final String newline = "\n";
 	
+	NavigateMenuInterface navigateMenu = new NavigateMenu();
+	RecordMenuInterface recordsMenu = new RecordMenu();
+	TransactionMenuInterface transactionsMenu = new TransactionMenu();
+	FileMenuInterface fileMenu = new FileMenu();
+
+	
 	JMenuBar menuBar;
-	JMenu navigateMenu, recordsMenu, transactionsMenu, fileMenu, exitMenu;
-	JMenuItem nextItem, prevItem, firstItem, lastItem, findByAccount, findBySurname, listAll;
-	JMenuItem createItem, modifyItem, deleteItem, setOverdraft, setInterest;
-	JMenuItem deposit, withdraw, calcInterest;
-	JMenuItem open, save, saveAs;
+	JMenu exitMenu;
 	JMenuItem closeApp;
-	JButton firstItemButton, lastItemButton, nextItemButton, prevItemButton;
+	
 	JLabel accountIDLabel, accountNumberLabel, firstNameLabel, surnameLabel, accountTypeLabel, balanceLabel, overdraftLabel;
 	JTextField accountIDTextField, accountNumberTextField, firstNameTextField, surnameTextField, accountTypeTextField, balanceTextField, overdraftTextField;
+	
 	static JFileChooser fc;
 	JTable jTable;
 	double interestRate;
@@ -123,81 +126,22 @@ public class BankApplication extends JFrame {
 		add(displayPanel, BorderLayout.CENTER);
 		
 		JPanel buttonPanel = new JPanel(new GridLayout(1, 4));
-
-		nextItemButton = new JButton(new ImageIcon("next.png"));
-		prevItemButton = new JButton(new ImageIcon("previous.png"));
-		firstItemButton = new JButton(new ImageIcon("first.png"));
-		lastItemButton = new JButton(new ImageIcon("last.png"));
 		
-		buttonPanel.add(firstItemButton);
-		buttonPanel.add(prevItemButton);
-		buttonPanel.add(nextItemButton);
-		buttonPanel.add(lastItemButton);
+		buttonPanel.add(navigateMenu.getFirstItemButton());
+		buttonPanel.add(navigateMenu.getPrevItemButton());
+		buttonPanel.add(navigateMenu.getNextItemButton());
+		buttonPanel.add(navigateMenu.getLastItemButton());
 		
 		add(buttonPanel, BorderLayout.SOUTH);
 		
 		menuBar = new JMenuBar();
     	setJMenuBar(menuBar);
 		
-		navigateMenu = new JMenu("Navigate");
     	
-    	nextItem = new JMenuItem("Next Item");
-    	prevItem = new JMenuItem("Previous Item");
-    	firstItem = new JMenuItem("First Item");
-    	lastItem = new JMenuItem("Last Item");
-    	findByAccount = new JMenuItem("Find by Account Number");
-    	findBySurname = new JMenuItem("Find by Surname");
-    	listAll = new JMenuItem("List All Records");
-    	
-    	navigateMenu.add(nextItem);
-    	navigateMenu.add(prevItem);
-    	navigateMenu.add(firstItem);
-    	navigateMenu.add(lastItem);
-    	navigateMenu.add(findByAccount);
-    	navigateMenu.add(findBySurname);
-    	navigateMenu.add(listAll);
-    	
-    	menuBar.add(navigateMenu);
-    	
-    	recordsMenu = new JMenu("Records");
-    	
-    	createItem = new JMenuItem("Create Item");
-    	modifyItem = new JMenuItem("Modify Item");
-    	deleteItem = new JMenuItem("Delete Item");
-    	setOverdraft = new JMenuItem("Set Overdraft");
-    	setInterest = new JMenuItem("Set Interest");
-    	
-    	recordsMenu.add(createItem);
-    	recordsMenu.add(modifyItem);
-    	recordsMenu.add(deleteItem);
-    	recordsMenu.add(setOverdraft);
-    	recordsMenu.add(setInterest);
-    	
-    	menuBar.add(recordsMenu);
-    	
-    	transactionsMenu = new JMenu("Transactions");
-    	
-    	deposit = new JMenuItem("Deposit");
-    	withdraw = new JMenuItem("Withdraw");
-    	calcInterest = new JMenuItem("Calculate Interest");
-    	
-    	transactionsMenu.add(deposit);
-    	transactionsMenu.add(withdraw);
-    	transactionsMenu.add(calcInterest);
-    	
-    	menuBar.add(transactionsMenu);
-    	
-    	fileMenu = new JMenu("File");
-    	
-    	open = new JMenuItem("Open File");
-    	save = new JMenuItem("Save File");
-    	saveAs = new JMenuItem("Save As");
-    	
-    	fileMenu.add(open);
-    	fileMenu.add(save);
-    	fileMenu.add(saveAs);
-    	
-    	menuBar.add(fileMenu);
+    	menuBar.add(navigateMenu.getNavigateMenu());
+    	menuBar.add(recordsMenu.getRecordsMenu());
+    	menuBar.add(fileMenu.getFileMenu());
+    	menuBar.add(transactionsMenu.getTransactionsMenu());
     	
     	exitMenu = new JMenu("Exit");
     	
@@ -212,9 +156,8 @@ public class BankApplication extends JFrame {
     	//21:
 		//Created private method to take care of the following of the following action listeners
 	
-		setOverdraft.addActionListener(new ActionListener(){
+		recordsMenu.getSetOverdraft().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-			
 				overdraftSetting();
 			
 			}
@@ -226,12 +169,18 @@ public class BankApplication extends JFrame {
 			}
 		};
 		
+		ActionListener last = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lastItemInList();
+			}
+		};
+		
 		
 		//10:
 		//Two ActionListeners of the same name
 		//Changed name of next1 to next for better naming
 		
-		ActionListener next = new ActionListener(){
+		ActionListener next = new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				nextItem();
 			}
@@ -243,69 +192,64 @@ public class BankApplication extends JFrame {
 				prevItem();
 			}
 		};
-	
-		ActionListener last = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				lastItemInList();
-			}
-		};
 		
-		nextItemButton.addActionListener(next);
-		nextItem.addActionListener(next);
 		
-		prevItemButton.addActionListener(prev);
-		prevItem.addActionListener(prev);
+		navigateMenu.getNextItemButton().addActionListener(next);
+		navigateMenu.getNextItem().addActionListener(next);
 
-		firstItemButton.addActionListener(first);
-		firstItem.addActionListener(first);
+		navigateMenu.getPrevItemButton().addActionListener(prev);
+		navigateMenu.getPrevItem().addActionListener(prev);
 
-		lastItemButton.addActionListener(last);
-		lastItem.addActionListener(last);
+		navigateMenu.getFirstItemButton().addActionListener(first);
+		navigateMenu.getFirstItem().addActionListener(first);
+
+		navigateMenu.getLastItemButton().addActionListener(last);
+		navigateMenu.getLastItem().addActionListener(last);
 		
-		deleteItem.addActionListener(new ActionListener(){
+		recordsMenu.getDeleteItem().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				deleteTheItem();
 			}
 		});
 		
-		createItem.addActionListener(new ActionListener(){
+		recordsMenu.getCreateItem().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				new CreateBankDialog(table);		
 			}
 		});
 		
 		
-		modifyItem.addActionListener(new ActionListener(){
+		recordsMenu.getModifyItem().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				modifyTheItem();
 			}
 		});
 		
-		setInterest.addActionListener(new ActionListener(){
+		recordsMenu.getSetInterest().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				setInterestRate();
 			}
 		});
 		
-		listAll.addActionListener(new ActionListener(){
+		navigateMenu.getListAll().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				listAllItems();
 			}
 		});
 		
-		open.addActionListener(new ActionListener(){
+		fileMenu.getOpen().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				openFile();
 			}
 		});
 		
-		save.addActionListener(new ActionListener(){
+		fileMenu.getSave().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				saveFile();
 			}
 		});
 		
-		saveAs.addActionListener(new ActionListener(){
+		fileMenu.getSaveAs().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				saveFileAs();
 			}
@@ -317,13 +261,13 @@ public class BankApplication extends JFrame {
 			}
 		});	
 		
-		findBySurname.addActionListener(new ActionListener(){
+		navigateMenu.getFindBySurname().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				findSurname();
 			}
 		});
 		
-		findByAccount.addActionListener(new ActionListener(){
+		navigateMenu.getFindByAccount().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				//21:
 				//Created private method to take care of the following two action listeners
@@ -331,19 +275,19 @@ public class BankApplication extends JFrame {
 			}
 		});
 		
-		deposit.addActionListener(new ActionListener(){
+		transactionsMenu.getDeposit().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				accountDeposit();
 			}
 		});
 		
-		withdraw.addActionListener(new ActionListener(){
+		transactionsMenu.getWithdraw().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				accountWithdraw();
 			}
 		});
 		
-		calcInterest.addActionListener(new ActionListener(){
+		transactionsMenu.getCalcInterest().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				calculateInterest();
 			}
@@ -380,17 +324,17 @@ public class BankApplication extends JFrame {
 	
 	private static RandomAccessFile input;
 	private static RandomAccessFile output;
-	private static final int NUMBER_RECORDS = 100;
 
 	
 	private void findSurname()
 	{
-		String sName = JOptionPane.showInputDialog("Search for surname: ");
+		//Clearer name for variable
+		String surname = JOptionPane.showInputDialog("Search for surname: ");
 		boolean found = false;
 		
 		 for (Map.Entry<Integer, BankAccount> entry : table.entrySet()) {
 			   
-			 if(sName.equalsIgnoreCase((entry.getValue().getSurname().trim()))){
+			 if(surname.equalsIgnoreCase((entry.getValue().getSurname().trim()))){
 				 found = true;
 				 accountIDTextField.setText(entry.getValue().getAccountID()+"");
 				 accountNumberTextField.setText(entry.getValue().getAccountNumber());
@@ -402,9 +346,9 @@ public class BankApplication extends JFrame {
 			 }
 		 }		
 		 if(found)
-			 JOptionPane.showMessageDialog(null, "Surname  " + sName + " found.");
+			 JOptionPane.showMessageDialog(null, "Surname  " + surname + " found.");
 		 else
-			 JOptionPane.showMessageDialog(null, "Surname " + sName + " not found.");
+			 JOptionPane.showMessageDialog(null, "Surname " + surname + " not found.");
 	}
 	
 	private void overdraftSetting()
@@ -417,6 +361,7 @@ public class BankApplication extends JFrame {
 		else
 			JOptionPane.showMessageDialog(null, "Overdraft only applies to Current Accounts");
 	}
+	
 	private void findAccount()
 	{
 		String accNum = JOptionPane.showInputDialog("Search for account number: ");
@@ -456,7 +401,7 @@ public class BankApplication extends JFrame {
 		
 		int maxKey = Collections.max(keyList);
 
-		saveOpenValues();	
+		saveOpenValues();
 
 			if(currentItem<maxKey){
 				currentItem++;
@@ -479,12 +424,11 @@ public class BankApplication extends JFrame {
 		}
 		
 		int minKey = Collections.min(keyList);
-		//System.out.println(minKey);
 		
 		if(currentItem>minKey){
 			currentItem--;
 			while(!table.containsKey(currentItem)){
-				//System.out.println("Current: " + currentItem + ", min key: " + minKey);
+			
 				currentItem--;
 			}
 		}
@@ -590,7 +534,9 @@ public class BankApplication extends JFrame {
 			dispose();
 		}
 		else if(answer == JOptionPane.NO_OPTION)
+		{
 			dispose();
+		}
 		
 		//17:
 		//final else if wasn't doing anything
@@ -618,14 +564,16 @@ public class BankApplication extends JFrame {
 	{
 		String accNum = JOptionPane.showInputDialog("Account number to withdraw from: ");
 		String toWithdraw = JOptionPane.showInputDialog("Account found, Enter Amount to Withdraw: ");
-		boolean found;
+		
+		//23
+		//boolean found is useless
 		
 		for (Map.Entry<Integer, BankAccount> entry : table.entrySet()) {
 			
 
 			if(accNum.equals(entry.getValue().getAccountNumber().trim())){
 				
-				found = true;
+				
 				
 				if(entry.getValue().getAccountType().trim().equals("Current")){
 					if(Double.parseDouble(toWithdraw) > entry.getValue().getBalance() + entry.getValue().getOverdraft())
@@ -653,7 +601,6 @@ public class BankApplication extends JFrame {
 			if(entry.getValue().getAccountType().equals("Deposit")){
 				double equation = 1 + ((interestRate)/100);
 				entry.getValue().setBalance(entry.getValue().getBalance()*equation);
-				//System.out.println(equation);
 				JOptionPane.showMessageDialog(null, "Balances Updated");
 				displayDetails(entry.getKey());
 			}
