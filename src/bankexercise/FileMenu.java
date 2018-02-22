@@ -58,7 +58,7 @@ public class FileMenu {
 		while(!BankApplication.table.containsKey(BankApplication.currentItem)){
 			BankApplication.currentItem++;
 		}
-		BankApplication.displayDetails(BankApplication.currentItem);
+		NavigateMenu.firstItemInList();
 	}
 
 	    public static void openFileRead() {

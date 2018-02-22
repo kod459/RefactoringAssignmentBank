@@ -9,7 +9,6 @@ import java.util.*;
 import javax.swing.*;
 import net.miginfocom.swing.MigLayout;
 
-@SuppressWarnings("serial")
 public class BankApplication extends JFrame {
 	
 	ArrayList<BankAccount> accountList = new ArrayList<BankAccount>();
@@ -21,7 +20,6 @@ public class BankApplication extends JFrame {
 	TransactionMenu transactionsMenu = new TransactionMenu();
 	FileMenu fileMenu = new FileMenu();
 
-	
 	JMenuBar menuBar;
 	JMenu exitMenu;
 	JMenuItem closeApp;
@@ -40,7 +38,6 @@ public class BankApplication extends JFrame {
 	static double interestRate;
 	
 	static int currentItem = 0;
-	
 	
 	static boolean openValues;
 	
@@ -317,6 +314,13 @@ public class BankApplication extends JFrame {
 		{
 			dispose();
 		}
+	}
+	
+	public static void main(String[] args) {
+		BankApplication ba = new BankApplication();
+		ba.setSize(1200,400);
+		ba.pack();
+		ba.setVisible(true);
 	}
 	
 	
