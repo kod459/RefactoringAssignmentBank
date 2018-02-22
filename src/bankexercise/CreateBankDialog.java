@@ -1,27 +1,5 @@
 package bankexercise;
 
-//import java.awt.BorderLayout;
-//import java.awt.FlowLayout;
-
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.Hashtable;
-//import java.util.Map;
-//import java.util.Random;
-//
-//import javax.swing.JButton;
-//import javax.swing.JComboBox;
-//import javax.swing.JFrame;
-//import javax.swing.JLabel;
-//import javax.swing.JOptionPane;
-//import javax.swing.JPanel;
-//import javax.swing.JTextField;
-
-
-//0:
-//Removed single imports and replaced with .* where necessary
-//Also removed unused import - Hashtable
-
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
@@ -31,15 +9,12 @@ import java.awt.event.ActionListener;
 
 import net.miginfocom.swing.MigLayout;
 
+@SuppressWarnings("serial")
 public class CreateBankDialog extends JFrame {
 
 	
 	private final static int TABLE_SIZE = 29;
 	Random rand = new Random();
-	
-	//1:
-	//Added Private to following 
-	private ArrayList<BankAccount> accountList;
 
 	private HashMap<Integer, BankAccount> table = new HashMap<Integer, BankAccount>();
 	
@@ -51,12 +26,6 @@ public class CreateBankDialog extends JFrame {
 		}
 		table.put(hash, value);
 	}
-	
-	// Constructor code based on that for the Create and Edit dialog classes in the Shapes exercise.
-
-
-	//2:
-	//Added private to the following swing properties && removed accountIDLabel as it is declared in other class
 	
 	private JLabel accountNumberLabel, firstNameLabel, surnameLabel, accountTypeLabel, balanceLabel, overdraftLabel;
 	
@@ -78,8 +47,6 @@ public class CreateBankDialog extends JFrame {
 
 		String[] comboTypes = {"Current", "Deposit"};
 		
-		//3:
-		//ComboBox already declared
 		comboBox = new JComboBox<String>(comboTypes);
 		
 		
@@ -151,14 +118,9 @@ public class CreateBankDialog extends JFrame {
 			
 				String accountType = comboBox.getSelectedItem().toString();
 				
-				//4:
-				//Removed unnecessary/unused variables 
 		
 				if (accountNumber != null && accountNumber.length()==8 && surname != null && firstName != null && accountType != null) {
 					try {
-
-						//5:
-						//Boolean is automatically set to false, get rid of initalization
 						boolean idTaken;
 						boolean accNumTaken = false;
 
@@ -199,8 +161,6 @@ public class CreateBankDialog extends JFrame {
 						}
 					}
 
-					//6:
-					//Added correct exception
 					catch (NumberFormatException ex) {
 						JOptionPane.showMessageDialog(null, "Number format exception");					
 					}
