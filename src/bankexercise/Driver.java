@@ -7,5 +7,5 @@ public class Driver {
 		ba.setSize(1200,400);
 		ba.pack();
 		ba.setVisible(true);
-	}	
+	}
 }
