@@ -9,9 +9,7 @@ private JMenu recordsMenu;
 	private JMenuItem createItem, modifyItem, deleteItem, setOverdraft, setInterest;
 	
 	public RecordMenu() {
-		
-		
-		
+
 		initComponents();
 	}
 
@@ -49,11 +47,11 @@ private JMenu recordsMenu;
 		return deleteItem;
 	}
 
-	public JMenuItem getSetOverdraft() {
+	public JMenuItem getOverdraft() {
 		return setOverdraft;
 	}
 
-	public JMenuItem getSetInterest() {
+	public JMenuItem getInterest() {
 		return setInterest;
 	}
 }

@@ -8,5 +8,4 @@ public class Driver {
 		ba.pack();
 		ba.setVisible(true);
 	}	
-
 }

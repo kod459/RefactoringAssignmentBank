@@ -3,8 +3,7 @@ package bankexercise;
 
 public class BankAccount {
 	
-	//8:
-	//Put data types together to clean up code
+	
 	private int accountID;
 	private String accountNumber, accountType, surname, firstName;
 	private double balance, overdraft;
@@ -20,10 +19,6 @@ public class BankAccount {
 		this.balance = balance;
 		this.overdraft = overdraft;
 	}
-	
-	//9:
-	//No need for blank Constructor
-	
 	
 	public int getAccountID() {
 		return accountID;
@@ -58,8 +53,6 @@ public class BankAccount {
 	}
 	
 	
-	//9:
-	//Useless Getter & Setter, AccountType already has Getter & Setter
 	
 	public String getFirstName() {
 		return firstName;
@@ -80,6 +73,7 @@ public class BankAccount {
 	public double getOverdraft() {
 		return overdraft;
 	}
+	
 	
 	public void setOverdraft(double overdraft) {
 		this.overdraft = overdraft;

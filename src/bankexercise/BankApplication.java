@@ -65,8 +65,7 @@ public class BankApplication extends JFrame {
 		
 		super("Bank Application");
 		
-		//15:
-		//Variables already declared as global variable
+		
 		initComponents();
 	}
 	
@@ -153,10 +152,8 @@ public class BankApplication extends JFrame {
     	
     	setDefaultCloseOperation(EXIT_ON_CLOSE);
     	
-    	//21:
-		//Created private method to take care of the following of the following action listeners
 	
-		recordsMenu.getSetOverdraft().addActionListener(new ActionListener(){
+		recordsMenu.getOverdraft().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				overdraftSetting();
 			
@@ -176,9 +173,7 @@ public class BankApplication extends JFrame {
 		};
 		
 		
-		//10:
-		//Two ActionListeners of the same name
-		//Changed name of next1 to next for better naming
+		
 		
 		ActionListener next = new ActionListener() {
 			public void actionPerformed(ActionEvent e){
@@ -225,7 +220,7 @@ public class BankApplication extends JFrame {
 			}
 		});
 		
-		recordsMenu.getSetInterest().addActionListener(new ActionListener(){
+		recordsMenu.getInterest().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				setInterestRate();
 			}
@@ -269,8 +264,7 @@ public class BankApplication extends JFrame {
 		
 		navigateMenu.getFindByAccount().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				//21:
-				//Created private method to take care of the following two action listeners
+				
 				findAccount();
 			}
 		});
@@ -295,8 +289,7 @@ public class BankApplication extends JFrame {
 	}
 	
 	
-	//11:
-	//Changed methods from Public to Private
+	
 	private void saveOpenValues(){		
 		if (openValues){
 			surnameTextField.setEditable(false);
@@ -328,7 +321,6 @@ public class BankApplication extends JFrame {
 	
 	private void findSurname()
 	{
-		//Clearer name for variable
 		String surname = JOptionPane.showInputDialog("Search for surname: ");
 		boolean found = false;
 		
@@ -438,7 +430,6 @@ public class BankApplication extends JFrame {
 	
 	private void firstItemInList()
 	{
-
 		saveOpenValues();
 		
 		currentItem=0;
@@ -446,14 +437,14 @@ public class BankApplication extends JFrame {
 			currentItem++;
 		}
 		displayDetails(currentItem);
+
+		
 	}
 	
 	private void lastItemInList()
 	{
 		saveOpenValues();
 		
-		//12:
-		//The constant will always be the same, no need for number here as TABLE_SIZE = 29
 		currentItem = TABLE_SIZE;
 						
 		while(!table.containsKey(currentItem)){
@@ -498,8 +489,6 @@ public class BankApplication extends JFrame {
 	private void listAllItems()
 	{
 		JFrame frame = new JFrame("TableDemo");
-		//16:
-		//Variable never used - pan
 	
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		String col[] = {"ID","Number","Name", "Account Type", "Balance", "Overdraft"};
@@ -521,14 +510,12 @@ public class BankApplication extends JFrame {
 		}
 		frame.setSize(600,500);
 		frame.add(scrollPane);
-		//frame.pack();
         frame.setVisible(true);
 	}
 	
 	private void closeApp()
 	{
 		int answer = JOptionPane.showConfirmDialog(BankApplication.this, "Do you want to save before quitting?");
-		//Fix if here!!!
 		if (answer == JOptionPane.YES_OPTION) {
 			saveFileAs();
 			dispose();
@@ -537,9 +524,6 @@ public class BankApplication extends JFrame {
 		{
 			dispose();
 		}
-		
-		//17:
-		//final else if wasn't doing anything
 	}
 	
 	private void accountDeposit()
@@ -553,7 +537,7 @@ public class BankApplication extends JFrame {
 				String toDeposit = JOptionPane.showInputDialog("Account found, Enter Amount to Deposit: ");
 				entry.getValue().setBalance(entry.getValue().getBalance() + Double.parseDouble(toDeposit));
 				displayDetails(entry.getKey());
-				//balanceTextField.setText(entry.getValue().getBalance()+"");
+				
 			}
 		}
 		if (!found)
@@ -565,8 +549,6 @@ public class BankApplication extends JFrame {
 		String accNum = JOptionPane.showInputDialog("Account number to withdraw from: ");
 		String toWithdraw = JOptionPane.showInputDialog("Account found, Enter Amount to Withdraw: ");
 		
-		//23
-		//boolean found is useless
 		
 		for (Map.Entry<Integer, BankAccount> entry : table.entrySet()) {
 			
@@ -626,20 +608,17 @@ public class BankApplication extends JFrame {
 		fc = new JFileChooser();
 		int returnVal = fc.showOpenDialog(null);
 
-		//19:
-		//if statement was pointless, just need the try/catch
-        
-            try // open file
+            try 
             {
             	if(fc.getSelectedFile()!=null)
             		input = new RandomAccessFile( fc.getSelectedFile(), "r" );
-            } // end try
+            }
             catch ( IOException ioException )
             {
             	JOptionPane.showMessageDialog(null, "File Does Not Exist.");
-            } // end catch
+            }
     			
-    	} // end method openFile
+    	}
 
         
 	
@@ -648,15 +627,15 @@ public class BankApplication extends JFrame {
 	private static void openFileWrite()
 	   {
 		if(fileToSaveAs!=""){
-	      try // open file
+	      try
 	      {
 	         output = new RandomAccessFile( fileToSaveAs, "rw" );
 	         JOptionPane.showMessageDialog(null, "Accounts saved to " + fileToSaveAs);
-	      } // end try
+	      }
 	      catch ( IOException ioException )
 	      {
 	    	  JOptionPane.showMessageDialog(null, "File does not exist.");
-	      } // end catch
+	      }
 		}
 		else
 			saveToFileAs();
@@ -680,40 +659,37 @@ public class BankApplication extends JFrame {
 		{
 			JOptionPane.showMessageDialog(null, "Save cancelled by user");
 		}
-
-		//20:
-		//Useless else
+		
 		try {
 			if(fc.getSelectedFile()==null){
 				JOptionPane.showMessageDialog(null, "Cancelled");
 			}
 			output = new RandomAccessFile(fc.getSelectedFile(), "rw" );
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	private static void closeFile() 
 	   {
-	      try // close file and exit
+	      try
 	      {
 	         if ( input != null )
 	            input.close();
-	      } // end try
+	      }
 	      catch ( IOException ioException )
 	      {
 	         
-	    	  JOptionPane.showMessageDialog(null, "Error closing file.");//System.exit( 1 );
-	      } // end catch
-	   } // end method closeFile
+	    	  JOptionPane.showMessageDialog(null, "Error closing file.");
+	      } 
+	   }
 	
 	private static void readRecords()
 	{
 
 		RandomAccessBankAccount record = new RandomAccessBankAccount();
 
-		try // read a record and display
+		try
 		{
 			while ( true )
 			{
@@ -742,17 +718,17 @@ public class BankApplication extends JFrame {
 				table.put(hash, ba);
 
 
-			} // end while
-		} // end try
-		catch ( EOFException eofException ) // close file
+			} 
+		} 
+		catch ( EOFException eofException )
 		{
-			return; // end of file was reached
-		} // end catch
+			return;
+		} 
 		catch ( IOException ioException )
 		{
 			JOptionPane.showMessageDialog(null, "Error reading file.");
 			System.exit( 1 );
-		} // end catch
+		}
 	}
 
 	private static void saveToFile(){
@@ -783,14 +759,10 @@ public class BankApplication extends JFrame {
 		}
 
 	}
-	
-	//22:
-	//Clearer name for method than WriteFile
 
 	private static void saveFile(){
 		openFileWrite();
 		saveToFile();
-		//addRecords();
 		closeFile();
 	}
 	
@@ -816,19 +788,7 @@ public class BankApplication extends JFrame {
 		table.put(hash, value);
 
 	}
-	
-	public static void main(String[] args) {
-		BankApplication ba = new BankApplication();
-		ba.setSize(1200,400);
-		ba.pack();
-		ba.setVisible(true);
-	}
-	
-	
 }
-
-
-
 
 /*
 The task for your second assignment is to construct a system that will allow users to define a data structure representing a collection of records that can be displayed both by means of a dialog that can be scrolled through and by means of a table to give an overall view of the collection contents. 
