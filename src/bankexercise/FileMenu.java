@@ -61,21 +61,24 @@ public class FileMenu {
 		NavigateMenu.firstItemInList();
 	}
 
-	    public static void openFileRead() {
-	    	
-	        BankApplication.table.clear();
-	        
-	        fc = new JFileChooser();
-	        
-	        int returnVal = fc.showOpenDialog(null);
-	        
-	        if (returnVal == JFileChooser.APPROVE_OPTION) {
-	            File file = fc.getSelectedFile();
-	        }
-	        openFile();
+
+	    public static void openFileRead() 
+	    {
+	    	BankApplication.table.clear();
+
+	    	fc = new JFileChooser();
+
+	    	int returnVal = fc.showOpenDialog(null);
+
+	    	if (returnVal == JFileChooser.APPROVE_OPTION) {
+	    		File file = fc.getSelectedFile();
+	    	}
+	    	openFile();
 	    }
+	    	
 
 	    public static void openFile() {
+	    	
 	        try
 	        {
 	            if (fc.getSelectedFile() != null)
@@ -105,16 +108,23 @@ public class FileMenu {
 	    }
 
 	    public static void saveToFileAs() {
-	        fc = new JFileChooser();
-	        int returnVal = fc.showSaveDialog(null);
-	        if (returnVal == JFileChooser.APPROVE_OPTION) {
-	            File file = fc.getSelectedFile();
-	            fileToSaveAs = file.getName();
-	            JOptionPane.showMessageDialog(null, "Accounts saved to " + file.getName());
-	        } else {
-	            JOptionPane.showMessageDialog(null, "Save cancelled by user");
-	        }
-	        validateSaveToFileAs();
+	    	if(BankApplication.table != null && BankApplication.table.size() > 0)
+			{
+	    		fc = new JFileChooser();
+	    		int returnVal = fc.showSaveDialog(null);
+	    		if (returnVal == JFileChooser.APPROVE_OPTION) {
+	    			File file = fc.getSelectedFile();
+	    			fileToSaveAs = file.getName();
+	    			JOptionPane.showMessageDialog(null, "Accounts saved to " + file.getName());
+	    		} else {
+	    			JOptionPane.showMessageDialog(null, "Save cancelled by user");
+	    		}
+	    		validateSaveToFileAs();
+			}
+	    	else
+	    	{
+	    		JOptionPane.showMessageDialog(null, "Nothing to Save");
+	    	}
 	    }
 
 	    public static void validateSaveToFileAs() {

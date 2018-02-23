@@ -3,7 +3,6 @@ package bankexercise;
 
 public class BankAccount {
 	
-	
 	private int accountID;
 	private String accountNumber, accountType, surname, firstName;
 	private double balance, overdraft;

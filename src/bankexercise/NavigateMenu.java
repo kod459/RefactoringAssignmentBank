@@ -122,6 +122,8 @@ public class NavigateMenu {
 	
 	public static void findSurname()
 	{
+		if(!BankApplication.table.isEmpty())
+		{
 		String surname = JOptionPane.showInputDialog("Search for surname: ");
 		boolean found = false;
 		
@@ -142,10 +144,17 @@ public class NavigateMenu {
 			 JOptionPane.showMessageDialog(null, "Surname  " + surname + " found.");
 		 else
 			 JOptionPane.showMessageDialog(null, "Surname " + surname + " not found.");
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "No fields in Table");
+		}
 	}
 	
 	public static void findAccount()
 	{
+		if(!BankApplication.table.isEmpty())
+		{
 		String accNum = JOptionPane.showInputDialog("Search for account number: ");
 		boolean found = false;
 	
@@ -167,10 +176,17 @@ public class NavigateMenu {
 			 JOptionPane.showMessageDialog(null, "Account number " + accNum + " found.");
 		 else
 			 JOptionPane.showMessageDialog(null, "Account number " + accNum + " not found.");
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "No fields in Table");
+		}
 	}
 	
 	public static void nextItem()
 	{
+		if(!BankApplication.table.isEmpty())
+		{
 		ArrayList<Integer> keyList = new ArrayList<Integer>();
 		int i=0;
 
@@ -192,56 +208,82 @@ public class NavigateMenu {
 				}
 			}
 			BankApplication.displayDetails(BankApplication.currentItem);
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "No fields in Table");
+		}
 	}
 	
 	public static void prevItem(){
-
-		ArrayList<Integer> keyList = new ArrayList<Integer>();
-		int i=0;
-
-		while(i<BankApplication.TABLE_SIZE){
-			i++;
-			if(BankApplication.table.containsKey(i))
-				keyList.add(i);
-		}
 		
-		int minKey = Collections.min(keyList);
-		
-		if(BankApplication.currentItem>minKey){
-			BankApplication.currentItem--;
-			while(!BankApplication.table.containsKey(BankApplication.currentItem)){
-			
-				BankApplication.currentItem--;
+		if(!BankApplication.table.isEmpty())
+		{
+			ArrayList<Integer> keyList = new ArrayList<Integer>();
+			int i=0;
+
+			while(i<BankApplication.TABLE_SIZE){
+				i++;
+				if(BankApplication.table.containsKey(i))
+					keyList.add(i);
 			}
+
+			int minKey = Collections.min(keyList);
+
+			if(BankApplication.currentItem>minKey){
+				BankApplication.currentItem--;
+				while(!BankApplication.table.containsKey(BankApplication.currentItem)){
+
+					BankApplication.currentItem--;
+				}
+			}
+			BankApplication.displayDetails(BankApplication.currentItem);
 		}
-		BankApplication.displayDetails(BankApplication.currentItem);
+		else
+		{
+			JOptionPane.showMessageDialog(null, "No fields in Table");
+		}
 	}
 	
 	public static void firstItemInList()
 	{
-		BankApplication.saveOpenValues();
-		
-		BankApplication.currentItem=0;
-		while(!BankApplication.table.containsKey(BankApplication.currentItem)){
-			BankApplication.currentItem++;
+
+		if(!BankApplication.table.isEmpty())
+		{
+			BankApplication.saveOpenValues();
+			BankApplication.currentItem=0;
+			while(!BankApplication.table.containsKey(BankApplication.currentItem)){
+				BankApplication.currentItem++;
+			}
+			BankApplication.displayDetails(BankApplication.currentItem);
 		}
-		BankApplication.displayDetails(BankApplication.currentItem);
+		else
+		{
+			JOptionPane.showMessageDialog(null, "No fields in Table");
+		}
 
 		
 	}
 	
 	public static void lastItemInList()
 	{
-		BankApplication.saveOpenValues();
-		
-		BankApplication.currentItem = BankApplication.TABLE_SIZE;
-						
-		while(!BankApplication.table.containsKey(BankApplication.currentItem)){
-			BankApplication.currentItem--;
-			
-		}
+		if(!BankApplication.table.isEmpty())
+		{
+			BankApplication.saveOpenValues();
+
+			BankApplication.currentItem = BankApplication.TABLE_SIZE;
+
+			while(!BankApplication.table.containsKey(BankApplication.currentItem)){
+				BankApplication.currentItem--;
+
+			}
 		
 		BankApplication.displayDetails(BankApplication.currentItem);
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "No fields in Table");
+		}
 	}
 
 }

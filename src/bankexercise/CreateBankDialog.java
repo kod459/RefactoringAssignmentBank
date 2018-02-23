@@ -40,7 +40,6 @@ public class CreateBankDialog extends JFrame {
 		setLayout(new BorderLayout());
 		
 		JPanel dataPanel = new JPanel(new MigLayout());
-		
 
 		String[] comboTypes = {"Current", "Deposit"};
 		

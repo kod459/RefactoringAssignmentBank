@@ -45,7 +45,6 @@ public class BankApplication extends JFrame {
 		
 		super("Bank Application");
 		
-		
 		initComponents();
 	}
 	
@@ -135,7 +134,7 @@ public class BankApplication extends JFrame {
 	
 		recordsMenu.getOverdraft().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				overdraftSetting();
+				RecordMenu.overdraftSetting();
 			
 			}
 		});
@@ -186,7 +185,7 @@ public class BankApplication extends JFrame {
 		
 		recordsMenu.getCreateItem().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				new CreateBankDialog(table);		
+				RecordMenu.createItem();	
 			}
 		});
 		
@@ -289,19 +288,7 @@ public class BankApplication extends JFrame {
 	            overdraftTextField.setText("Only applies to current accs");
 	    }
 
-	
-	
-	private void overdraftSetting()
-	{
-		if(table.get(currentItem).getAccountType().trim().equals("Current")){
-			String newOverdraftStr = JOptionPane.showInputDialog(null, "Enter new Overdraft", JOptionPane.OK_CANCEL_OPTION);
-			overdraftTextField.setText(newOverdraftStr);
-			table.get(currentItem).setOverdraft(Double.parseDouble(newOverdraftStr));
-		}
-		else
-			JOptionPane.showMessageDialog(null, "Overdraft only applies to Current Accounts");
-	}
-	
+
 	
 	private void closeApp()
 	{

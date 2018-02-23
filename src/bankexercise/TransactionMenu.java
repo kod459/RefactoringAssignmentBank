@@ -58,49 +58,71 @@ public class TransactionMenu {
 			}
 		}
 		if (!found)
+		{
 			JOptionPane.showMessageDialog(null, "Account number " + accNum + " not found.");
+		}
 	}
 	
 	public static void accountWithdraw()
 	{
 		String accNum = JOptionPane.showInputDialog("Account number to withdraw from: ");
-		String toWithdraw = JOptionPane.showInputDialog("Account found, Enter Amount to Withdraw: ");
 		
+		boolean found = false;
 		
 		for (Map.Entry<Integer, BankAccount> entry : BankApplication.table.entrySet()) {
-			
 
 			if(accNum.equals(entry.getValue().getAccountNumber().trim())){
-				
-				if(entry.getValue().getAccountType().trim().equals("Current")){
-					if(Double.parseDouble(toWithdraw) > entry.getValue().getBalance() + entry.getValue().getOverdraft())
-						JOptionPane.showMessageDialog(null, "Transaction exceeds overdraft limit");
-					else{
-						entry.getValue().setBalance(entry.getValue().getBalance() - Double.parseDouble(toWithdraw));
-						BankApplication.displayDetails(entry.getKey());
+				String toWithdraw = JOptionPane.showInputDialog("Account found, Enter Amount to Withdraw: ");
+				if (!toWithdraw.contains("-")) {
+					found = true;
+					if(entry.getValue().getAccountType().trim().equals("Current")){
+						if(Double.parseDouble(toWithdraw) > entry.getValue().getBalance() + entry.getValue().getOverdraft())
+							JOptionPane.showMessageDialog(null, "Transaction exceeds overdraft limit");
+						else{
+							entry.getValue().setBalance(entry.getValue().getBalance() - Double.parseDouble(toWithdraw));
+							BankApplication.displayDetails(entry.getKey());
+						}
+					}
+					else if(entry.getValue().getAccountType().trim().equals("Deposit")){
+						if(Double.parseDouble(toWithdraw) <= entry.getValue().getBalance()){
+							entry.getValue().setBalance(entry.getValue().getBalance()-Double.parseDouble(toWithdraw));
+							BankApplication.displayDetails(entry.getKey());
+						}
+						else
+							JOptionPane.showMessageDialog(null, "Insufficient funds.");
 					}
 				}
-				else if(entry.getValue().getAccountType().trim().equals("Deposit")){
-					if(Double.parseDouble(toWithdraw) <= entry.getValue().getBalance()){
-						entry.getValue().setBalance(entry.getValue().getBalance()-Double.parseDouble(toWithdraw));
-						BankApplication.displayDetails(entry.getKey());
-					}
-					else
-						JOptionPane.showMessageDialog(null, "Insufficient funds.");
-				}
-			}					
+			}else {
+				JOptionPane.showMessageDialog(null, "You cannot withdraw a negitive number", "ERROR", JOptionPane.ERROR_MESSAGE);
+				found = true;
+			}
+
+		}
+		if (accNum == null || (accNum != null && ("".equals(accNum)))) {
+			JOptionPane.showMessageDialog(null, "No account number entered");
+		} else if (!found) {
+			JOptionPane.showMessageDialog(null, "Account number " + accNum + " not found.");
 		}
 	}
 	
 	public static void calculateInterest()
 	{
-		for (Map.Entry<Integer, BankAccount> entry : BankApplication.table.entrySet()) {
-			if(entry.getValue().getAccountType().equals("Deposit")){
-				double equation = 1 + ((BankApplication.interestRate)/100);
-				entry.getValue().setBalance(entry.getValue().getBalance()*equation);
-				JOptionPane.showMessageDialog(null, "Balances Updated");
-				BankApplication.displayDetails(entry.getKey());
+		if(BankApplication.table.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "No Accounts selected");
+		}
+		else 
+		{
+			if(!(BankApplication.interestRate == 0)) {
+				for (Map.Entry<Integer, BankAccount> entry : BankApplication.table.entrySet()) {
+					if(entry.getValue().getAccountType().equals("Deposit")){
+						double equation = 1 + ((BankApplication.interestRate)/100);
+						entry.getValue().setBalance(entry.getValue().getBalance()*equation);
+						JOptionPane.showMessageDialog(null, "Balances Updated");
+						BankApplication.displayDetails(entry.getKey());
+					}
+				}
 			}
+			JOptionPane.showMessageDialog(null, "No interest rate set");
 		}
 	}
 }
