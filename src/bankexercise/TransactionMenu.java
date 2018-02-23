@@ -93,7 +93,7 @@ public class TransactionMenu {
 					}
 				}
 			}else {
-				JOptionPane.showMessageDialog(null, "You cannot withdraw a negitive number", "ERROR", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "You cannot withdraw a negitive number");
 				found = true;
 			}
 
@@ -122,7 +122,10 @@ public class TransactionMenu {
 					}
 				}
 			}
-			JOptionPane.showMessageDialog(null, "No interest rate set");
+			else
+			{
+				JOptionPane.showMessageDialog(null, "No interest rate set");
+			}
 		}
 	}
 }
